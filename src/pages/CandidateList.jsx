@@ -1,36 +1,41 @@
-import React from "react";
-import { Icon, Label, Menu, Table } from 'semantic-ui-react'
+import React, { useState, useEffect } from "react";
+import { Icon, Label, Menu, Table } from "semantic-ui-react";
+import CandidateService from "../services/candidateService";
 
 export default function CandidateList() {
+  
+  const [candidates, setCandidates] = useState([]);
+
+  useEffect(() => {
+    let candidateService = new CandidateService();
+    candidateService
+      .getCandidates()
+      .then((result) => setCandidates(result.data.data));
+  }, []);
+
   return (
     <div>
       <Table celled>
         <Table.Header>
           <Table.Row>
-            <Table.HeaderCell>Header</Table.HeaderCell>
-            <Table.HeaderCell>Header</Table.HeaderCell>
-            <Table.HeaderCell>Header</Table.HeaderCell>
+            <Table.HeaderCell>TC Kimlik Numarası</Table.HeaderCell>
+            <Table.HeaderCell>İsim</Table.HeaderCell>
+            <Table.HeaderCell>Soyisim</Table.HeaderCell>
+            <Table.HeaderCell>Email</Table.HeaderCell>
+            <Table.HeaderCell>Doğum Tarihi</Table.HeaderCell>
           </Table.Row>
         </Table.Header>
 
         <Table.Body>
-          <Table.Row>
-            <Table.Cell>
-              <Label ribbon>First</Label>
-            </Table.Cell>
-            <Table.Cell>Cell</Table.Cell>
-            <Table.Cell>Cell</Table.Cell>
-          </Table.Row>
-          <Table.Row>
-            <Table.Cell>Cell</Table.Cell>
-            <Table.Cell>Cell</Table.Cell>
-            <Table.Cell>Cell</Table.Cell>
-          </Table.Row>
-          <Table.Row>
-            <Table.Cell>Cell</Table.Cell>
-            <Table.Cell>Cell</Table.Cell>
-            <Table.Cell>Cell</Table.Cell>
-          </Table.Row>
+          {candidates.map((candidate) => (
+            <Table.Row>
+              <Table.Cell></Table.Cell>
+              <Table.Cell>{candidate.firstName}</Table.Cell>
+              <Table.Cell>Cell</Table.Cell>
+              <Table.Cell>Cell</Table.Cell>
+              <Table.Cell>Cell</Table.Cell>
+            </Table.Row>
+          ))}
         </Table.Body>
 
         <Table.Footer>
