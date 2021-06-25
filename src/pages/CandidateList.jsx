@@ -29,11 +29,11 @@ export default function CandidateList() {
         <Table.Body>
           {candidates.map((candidate) => (
             <Table.Row>
-              <Table.Cell></Table.Cell>
+              <Table.Cell>{candidate.citizenId}</Table.Cell>
               <Table.Cell>{candidate.firstName}</Table.Cell>
-              <Table.Cell>Cell</Table.Cell>
-              <Table.Cell>Cell</Table.Cell>
-              <Table.Cell>Cell</Table.Cell>
+              <Table.Cell>{candidate.lastName}</Table.Cell>
+              <Table.Cell>{candidate.email}</Table.Cell>
+              <Table.Cell>{candidate.dateOfBirth}</Table.Cell>
             </Table.Row>
           ))}
         </Table.Body>
