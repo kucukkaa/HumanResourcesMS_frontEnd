@@ -1,15 +1,15 @@
 import React, { useState, useEffect } from "react";
+import EmployerService from "../services/employerService";
 import { Icon, Menu, Table } from "semantic-ui-react";
-import CandidateService from "../services/candidateService";
 
-export default function CandidateList() {
-  const [candidates, setCandidates] = useState([]);
+export default function EmployerList() {
+  const [employers, setEmployers] = useState([]);
 
   useEffect(() => {
-    let candidateService = new CandidateService();
-    candidateService
-      .getCandidates()
-      .then((result) => setCandidates(result.data.data));
+    let employerService = new EmployerService();
+    employerService
+      .getEmployers()
+      .then((result) => setEmployers(result.data.data))
   }, []);
 
   return (
@@ -17,29 +17,27 @@ export default function CandidateList() {
       <Table celled>
         <Table.Header>
           <Table.Row>
-            <Table.HeaderCell>TC Kimlik Numarası</Table.HeaderCell>
-            <Table.HeaderCell>İsim</Table.HeaderCell>
-            <Table.HeaderCell>Soyisim</Table.HeaderCell>
+            <Table.HeaderCell>Şirket Adı</Table.HeaderCell>
+            <Table.HeaderCell>Web Sitesi</Table.HeaderCell>
             <Table.HeaderCell>Email</Table.HeaderCell>
-            <Table.HeaderCell>Doğum Tarihi</Table.HeaderCell>
+            <Table.HeaderCell>Telefon Numarası</Table.HeaderCell>
           </Table.Row>
         </Table.Header>
 
         <Table.Body>
-          {candidates.map((candidate) => (
+          {employers.map((employer) => (
             <Table.Row>
-              <Table.Cell>{candidate.citizenId}</Table.Cell>
-              <Table.Cell>{candidate.firstName}</Table.Cell>
-              <Table.Cell>{candidate.lastName}</Table.Cell>
-              <Table.Cell>{candidate.email}</Table.Cell>
-              <Table.Cell>{candidate.dateOfBirth}</Table.Cell>
+              <Table.Cell>{employer.companyName}</Table.Cell>
+              <Table.Cell>{employer.website}</Table.Cell>
+              <Table.Cell>{employer.email}</Table.Cell>
+              <Table.Cell>{employer.phoneNumber}</Table.Cell>
             </Table.Row>
           ))}
         </Table.Body>
 
         <Table.Footer>
           <Table.Row>
-            <Table.HeaderCell colSpan="5">
+            <Table.HeaderCell colSpan="4">
               <Menu floated="right" pagination>
                 <Menu.Item as="a" icon>
                   <Icon name="chevron left" />
