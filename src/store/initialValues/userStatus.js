@@ -1,1 +1,1 @@
-export const userStatus={userType, userFirstName}
+export const userStatus=[]
