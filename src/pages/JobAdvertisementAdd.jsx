@@ -1,9 +1,18 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { Formik, Form, Field } from "formik";
 import * as Yup from "yup";
-import { FormField, Button, Select } from "semantic-ui-react";
+import { FormField, Button } from "semantic-ui-react";
+import { Select } from "formik-semantic-ui-react";
+import CityService from "../services/cityService";
 
 export default function JobAdvertisementAdd() {
+  const [cities, setCity] = useState([]);
+
+  useEffect(() => {
+    let cityService = new CityService();
+    cityService.getCities().then((result) => setCity(result.data.data));
+  }, []);
+
   const initialValues = {
     applicationDeadline: "",
     creationDate: "",
@@ -21,13 +30,24 @@ export default function JobAdvertisementAdd() {
       "Son Başvuru Tarihi girilmesi zorunludur."
     ),
     workingPlace: Yup.string(),
-    workType: new Yup.StringSchema()
-    
+    workType: Yup.string(),
+    city: Yup.string()
   });
 
-  const workTypeOptions = [{ key:"yz", value:"yz", text: "Yarı Zamanlı" }, { key:"tm", value:"tm", text: "Tam Zamanlı" }];
+  const workTypeOptions = [
+    { key: "yz", value: "yz", text: "Yarı Zamanlı" },
+    { key: "tm", value: "tm", text: "Tam Zamanlı" },
+  ];
 
-  const workingPlaceOptions = [{ key:"ev", value:"ev", text: "Evden" }, { key:"iş", value:"iş", text: "İşyerinden" }];
+  const workingPlaceOptions = [
+    { key: "ev", value: "ev", text: "Evden" },
+    { key: "iş", value: "iş", text: "İşyerinden" },
+  ];
+
+  const workingCityOptions = []
+
+  workingCityOptions.push(cities.map((city)=>({key: city.id, value:city.id, text: city.cityName})))
+  console.log(workingCityOptions)
 
   const WorkingPlace = () => (
     <Select
@@ -37,9 +57,9 @@ export default function JobAdvertisementAdd() {
     />
   );
 
- 
-
-
+  const WorkingCity = () => (
+    <Select name="city" placeholder="Şehir" options={workingCityOptions[0]}/>
+  );
 
   return (
     <div>
@@ -55,6 +75,10 @@ export default function JobAdvertisementAdd() {
             <Field name="jobDescription" placeholder="İş Bilgisi"></Field>
           </FormField>
           <FormField>
+            <WorkingCity/>
+          </FormField>
+
+          <FormField>
             <Select
               name="workType"
               placeholder="Çalışma Şekli"
@@ -63,7 +87,7 @@ export default function JobAdvertisementAdd() {
           </FormField>
 
           <FormField>
-            <WorkingPlace/>
+            <WorkingPlace />
           </FormField>
 
           <FormField>
