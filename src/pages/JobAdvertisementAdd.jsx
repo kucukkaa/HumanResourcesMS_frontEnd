@@ -4,14 +4,21 @@ import * as Yup from "yup";
 import { FormField, Button } from "semantic-ui-react";
 import { Select } from "formik-semantic-ui-react";
 import CityService from "../services/cityService";
+import PositionService from "../services/positionService";
 
 export default function JobAdvertisementAdd() {
   const [cities, setCity] = useState([]);
+  const [positions, setPositions] = useState([]);
 
   useEffect(() => {
     let cityService = new CityService();
     cityService.getCities().then((result) => setCity(result.data.data));
   }, []);
+
+  useEffect(() => {
+    let positionService = new PositionService();
+    positionService.getPositions().then((result) => setPositions(result.data.data));
+  },[])
 
   const initialValues = {
     applicationDeadline: "",
@@ -29,26 +36,36 @@ export default function JobAdvertisementAdd() {
     applicationDeadline: Yup.date().required(
       "Son Başvuru Tarihi girilmesi zorunludur."
     ),
-    workingPlace: Yup.string(),
-    workType: Yup.string(),
-    city: Yup.string()
+    workingPlace: Yup.string().required("Çalışma Yeri Bilgisi Zorunludur."),
+    workType: Yup.string().required("Çalışma Şekli bilgisi zorunludur."),
+    city: Yup.string().required("Şehir bilgisi zorunludur."),
+    position: Yup.string()
   });
 
   const workTypeOptions = [
-    { key: "yz", value: "yz", text: "Yarı Zamanlı" },
-    { key: "tm", value: "tm", text: "Tam Zamanlı" },
+    { key: "yz", value: 1, text: "Yarı Zamanlı" },
+    { key: "tm", value: 2, text: "Tam Zamanlı" },
   ];
 
   const workingPlaceOptions = [
-    { key: "ev", value: "ev", text: "Evden" },
-    { key: "iş", value: "iş", text: "İşyerinden" },
+    { key: "ev", value: 1, text: "Evden" },
+    { key: "iş", value: 2, text: "İşyerinden" },
   ];
 
   const workingCityOptions = []
-
   workingCityOptions.push(cities.map((city)=>({key: city.id, value:city.id, text: city.cityName})))
-  console.log(workingCityOptions)
 
+  const positionOptions = []
+  positionOptions.push(positions.map((position)=>({key: position.id, value: position.id, text:position.jobTitle})))
+  
+  const WorkingType = () => (
+    <Select
+      name="workType"
+      placeholder="Çalışma Şekli"
+      options={workTypeOptions}
+    />
+  )    
+  
   const WorkingPlace = () => (
     <Select
       name="workingPlace"
@@ -61,6 +78,10 @@ export default function JobAdvertisementAdd() {
     <Select name="city" placeholder="Şehir" options={workingCityOptions[0]}/>
   );
 
+  const Position = () => (
+    <Select name="position" placeholder="Pozisyon" options={positionOptions[0]}/>
+  )
+
   return (
     <div>
       <Formik
@@ -71,25 +92,22 @@ export default function JobAdvertisementAdd() {
         }}
       >
         <Form className="ui form">
+        <FormField>
+            <Position/>
+          </FormField>
+          
           <FormField>
             <Field name="jobDescription" placeholder="İş Bilgisi"></Field>
           </FormField>
           <FormField>
             <WorkingCity/>
           </FormField>
-
           <FormField>
-            <Select
-              name="workType"
-              placeholder="Çalışma Şekli"
-              options={workTypeOptions}
-            />
+            <WorkingType/>
           </FormField>
-
           <FormField>
             <WorkingPlace />
           </FormField>
-
           <FormField>
             <Field
               name="numberOfOpenPosition"
