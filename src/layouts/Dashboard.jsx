@@ -1,9 +1,7 @@
 import React from "react";
 import CandidateList from "../pages/CandidateList";
-import EmployerList from "../pages/EmployerList";
 import JobAdvertisementList from "../pages/JobAdvertisementList";
 import JobAdvertisementAdd from "../pages/JobAdvertisementAdd";
-import CandidateResumesList from "../pages/CandidateResumesList";
 import { Grid } from "semantic-ui-react";
 import { Route } from "react-router";
 import { ToastContainer } from "react-toastify";
@@ -19,12 +17,16 @@ export default function Dashboard() {
             {/* <CandidateList/>
             <EmployerList/>            
             <CandidateResumesList/>
-            <JobAdvertisementList/> */}
-            <JobAdvertisementAdd/>
-            {/* <Route exact path="/candidates" component={CandidateList} />
+            <JobAdvertisementList/> 
+            <JobAdvertisementAdd/>*/}
+            {/* 
             <Route exact path="/employers" component={EmployerList} />
-            <Route exact path="/jobadvertisementadd" componet={JobAdvertisementAdd} />
-            <Route exact path="/jobadvertisementlist" componet={JobAdvertisementList} /> */}
+            
+             */}
+            <Route exact path="/" component={CandidateList} />
+            <Route exact path="/candidates" component={CandidateList} />
+            <Route exact path="/jobadvertisement/add" component={JobAdvertisementAdd}/>
+            <Route exact path="/jobadvertisements" component={JobAdvertisementList} />
           </Grid.Column>
         </Grid.Row>
       </Grid>

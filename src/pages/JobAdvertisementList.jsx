@@ -17,22 +17,26 @@ export default function JobAdvertisementList() {
       <Table celled>
         <Table.Header>
           <Table.Row>
-            <Table.HeaderCell>İş Tanımı</Table.HeaderCell>            
+            <Table.HeaderCell>Pozisyon</Table.HeaderCell> 
+            <Table.HeaderCell>İş Açıklaması</Table.HeaderCell>            
             <Table.HeaderCell>En Düşük Ücret</Table.HeaderCell>
             <Table.HeaderCell>En Yüksek Ücret</Table.HeaderCell>
             <Table.HeaderCell>Açık Pozisyon Sayısı</Table.HeaderCell>
             <Table.HeaderCell>Son Başvuru Tarihi</Table.HeaderCell>
+            <Table.HeaderCell>Şehir</Table.HeaderCell>
           </Table.Row>
         </Table.Header>
 
         <Table.Body>
           {jobAdvertisements.map((jobAdvertisement) => (
             <Table.Row>
+              <Table.Cell>{jobAdvertisement.position.jobTitle}</Table.Cell>    
               <Table.Cell>{jobAdvertisement.jobDescription}</Table.Cell>              
               <Table.Cell>{jobAdvertisement.minSalary}</Table.Cell>
               <Table.Cell>{jobAdvertisement.maxSalary}</Table.Cell>
               <Table.Cell>{jobAdvertisement.numberOfOpenPositions}</Table.Cell>
               <Table.Cell>{jobAdvertisement.applicationDeadline}</Table.Cell>
+              <Table.Cell>{jobAdvertisement.city.cityName}</Table.Cell>
             </Table.Row>
           ))}
         </Table.Body>

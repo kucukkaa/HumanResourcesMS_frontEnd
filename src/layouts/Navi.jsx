@@ -11,7 +11,7 @@ export default function Navi() {
   const {userStatus} = useSelector(state => state.user)
   const dispatch = useDispatch()
 
-  var user = {userType:1, userFirstName:"ahmet"}
+  var user = {userId: 3, userType:2, userFirstName:"ahmet"} // gecici olarak giriş işleminden user gelecek
 
   const handleSingIn=(user)=>{
     dispatch(signIn(user))

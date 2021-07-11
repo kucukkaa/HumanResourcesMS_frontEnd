@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import CandidateResumeService from "../services/candidateResumeService";
-import { Icon, Menu, Table } from "semantic-ui-react";
 
 export default function CandidateResumesList() {
     const [candidateResumes, setCandidateResumes] = useState([]);
