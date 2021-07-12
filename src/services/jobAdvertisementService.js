@@ -5,11 +5,7 @@ export default class JobAdvertisementService {
         return axios.get("http://localhost:8080/api/JobAdvertisements/getall")
     }
 
-    postJobAdvertisement(values) {
-        return axios({
-            method: 'post',
-            url: 'http://localhost:8080/api/JobAdvertisements/add',
-            data: values
-        })
+    addJobAdvertisement(jobAdvertisement) {
+        return axios.post('http://localhost:8080/api/JobAdvertisements/add', jobAdvertisement)
     }
 }

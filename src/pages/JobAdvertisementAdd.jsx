@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Formik, Form, Field, ErrorMessage } from "formik";
-import { useSelector } from 'react-redux';
+import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
 import * as Yup from "yup";
 import { FormField, Button, Label } from "semantic-ui-react";
@@ -10,24 +10,26 @@ import PositionService from "../services/positionService";
 import WorkingTypeService from "../services/workingTypeService";
 import WorkingPlaceService from "../services/workingPlaceService";
 import JobAdvertisementService from "../services/jobAdvertisementService";
+import * as moment from "moment";
 
 export default function JobAdvertisementAdd() {
-  let jobAdvertisementService = new JobAdvertisementService()
-  
-  const {userStatus} = useSelector(state => state.user)
-  const dispatch = useDispatch()
+  let jobAdvertisementService = new JobAdvertisementService();
+
+  const { userStatus } = useSelector((state) => state.user);
+  const dispatch = useDispatch();
 
   var userName;
   var userType;
-  var userId
+  var userId;
 
   userStatus.map(
-    (user) => ((userName = user.userFirstName), (userType = user.userType), (userId=user.userId))
-  );
+    (user) => (
+      (userName = user.userFirstName,
+      userType = user.userType,
+      userId = user.userId
+    ))
+  )
 
-  
-  
-  
   const [cities, setCity] = useState([]);
   const [positions, setPosition] = useState([]);
   const [workingTypes, setWorkingType] = useState([]);
@@ -36,23 +38,17 @@ export default function JobAdvertisementAdd() {
   useEffect(() => {
     let cityService = new CityService();
     cityService.getCities().then((result) => setCity(result.data.data));
-  }, []);
 
-  useEffect(() => {
     let positionService = new PositionService();
     positionService
       .getPositions()
       .then((result) => setPosition(result.data.data));
-  }, []);
 
-  useEffect(() => {
     let workingTypeService = new WorkingTypeService();
     workingTypeService
       .getWorkingTypes()
       .then((result) => setWorkingType(result.data.data));
-  }, []);
 
-  useEffect(() => {
     let workingPlaceService = new WorkingPlaceService();
     workingPlaceService
       .getWorkingPlaces()
@@ -61,10 +57,11 @@ export default function JobAdvertisementAdd() {
 
   const initialValues = {
     applicationDeadline: "",
-    creationDate: "",
+    creationDate: moment().format("YYYY-MM-DD"),
     numberOfOpenPosition: 1,
     minSalary: 2900,
-    id: userId
+    employerId: userId,
+    active: false
   };
   const schema = Yup.object({
     jobDescription: Yup.string().required("İş bilgisi girilmesi zorunludur."),
@@ -76,73 +73,62 @@ export default function JobAdvertisementAdd() {
     applicationDeadline: Yup.date().required(
       "Son Başvuru Tarihi girilmesi zorunludur."
     ),
-    workingPlace: Yup.string().required("Çalışma Yeri Bilgisi Zorunludur."),
-    workType: Yup.string().required("Çalışma Şekli bilgisi zorunludur."),
-    city: Yup.string().required("Şehir bilgisi zorunludur."),
-    position: Yup.string().required("Pozisyon bilgisi zorunludur."),
+    workingPlaceId: Yup.number().required("Çalışma Yeri Bilgisi Zorunludur."),
+    workingTypeId: Yup.number().required("Çalışma Şekli bilgisi zorunludur."),
+    cityId: Yup.number().required("Şehir bilgisi zorunludur."),
+    jobTitleId: Yup.number().required("Pozisyon bilgisi zorunludur."),
   });
 
-  const workingTypeOptions = [];
-  workingTypeOptions.push(
-    workingTypes.map((workingType) => ({
-      key: workingType.id,
+  const workingTypeOptions = workingTypes.map((workingType, index) => ({
+      key: index,
       value: workingType.id,
       text: workingType.workingType,
     }))
-  );
 
-  const workingPlaceOptions = [];
-  workingPlaceOptions.push(
-    workingPlaces.map((workingPlace) => ({
+  const workingPlaceOptions = workingPlaces.map((workingPlace) => ({
       key: workingPlace.id,
       value: workingPlace.id,
       text: workingPlace.workingPlace,
-    }))
-  );
+    }))  
 
-  const workingCityOptions = [];
-  workingCityOptions.push(
-    cities.map((city) => ({
-      key: city.id,
+  const workingCityOptions = cities.map((city, index) => ({
+      key: index,
       value: city.id,
       text: city.cityName,
-    }))
-  );
+    })); 
 
-  const positionOptions = [];
-  positionOptions.push(
-    positions.map((position) => ({
-      key: position.id,
+  const positionOptions = positions.map((position, index) => ({
+      key: index,
       value: position.id,
       text: position.jobTitle,
     }))
-  );
+  
 
   const WorkingType = () => (
     <Select
-      name="workType"
+      name="workingTypeId"
       placeholder="Çalışma Şekli"
-      options={workingTypeOptions[0]}
+      options={workingTypeOptions}
     />
   );
 
   const WorkingPlace = () => (
     <Select
-      name="workingPlace"
+      name="workingPlaceId"
       placeholder="Çalışma Yeri"
-      options={workingPlaceOptions[0]}
+      options={workingPlaceOptions}
     />
   );
 
   const WorkingCity = () => (
-    <Select name="city" placeholder="Şehir" options={workingCityOptions[0]} />
+    <Select name="cityId" placeholder="Şehir" options={workingCityOptions} />
   );
 
   const Position = () => (
     <Select
-      name="position"
+      name="jobTitleId"
       placeholder="Pozisyon"
-      options={positionOptions[0]}
+      options={positionOptions}
     />
   );
 
@@ -151,19 +137,38 @@ export default function JobAdvertisementAdd() {
       <Formik
         initialValues={initialValues}
         validationSchema={schema}
-        onSubmit={(values) => jobAdvertisementService.postJobAdvertisement(values)
+        onSubmit={(values) => {
+          let jobAdvertisement = {
+            active: values.active,
+            applicationDeadline: values.applicationDeadline,
+            city: {id: values.cityId},
+            creationDate: values.creationDate,
+            employer: {id: values.employerId},
+            jobDescription: values.jobDescription,
+            maxSalary: values.maxSalary,
+            minSalary: values.minSalary,
+            numberOfOpenPosition: values.numberOfOpenPosition,
+            position: {id: values.jobTitleId},
+            workingPlace: {id: values.workingPlaceId},
+            workingType: {id: values.workingTypeId}
+          };
+          jobAdvertisementService.addJobAdvertisement(jobAdvertisement)
+        } 
         }
       >
         <Form className="ui form">
           <FormField>
-            <Position/>
+            <Position />
           </FormField>
 
           <FormField>
             <Field name="jobDescription" placeholder="İş Açıklaması"></Field>
-            <ErrorMessage name ="jobDescription" render={error=>
-              <Label pointing basic color="red" content={error}></Label>
-            }></ErrorMessage>
+            <ErrorMessage
+              name="jobDescription"
+              render={(error) => (
+                <Label pointing basic color="red" content={error}></Label>
+              )}
+            ></ErrorMessage>
           </FormField>
           <FormField>
             <WorkingCity />

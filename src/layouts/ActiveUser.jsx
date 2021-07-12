@@ -8,8 +8,9 @@ export default function ActiveUser() {
   var userName;
   var userType;
 
-  userStatus.map(
-    (user) => ((userName = user.userFirstName), (userType = user.userType))
+  userStatus.map((user) => 
+  ((userName = user.userFirstName, 
+    userType = user.userType))
   );
 
   return (
@@ -17,11 +18,15 @@ export default function ActiveUser() {
       <Dropdown item text={userName}>
         <Dropdown.Menu>
           <Dropdown.Item>{userName}</Dropdown.Item>
-          {userType === 2 && (
-            <Dropdown.Item>
-              <Link to={`/jobadvertisement/add`}>İş İlanı Ekle</Link>
-            </Dropdown.Item>
-          )}
+          {userType === 2 && <>
+             <Dropdown.Item>
+             <Link to={`/jobadvertisement/add`}>İş İlanı Ekle</Link>
+           </Dropdown.Item>
+           <Dropdown.Item>
+           <Link to={`/jobadvertisement/add`}>İş İlanı Ekle</Link>
+         </Dropdown.Item>
+          </>
+          }
         </Dropdown.Menu>
       </Dropdown>
     </div>
