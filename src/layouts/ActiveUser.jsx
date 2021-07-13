@@ -23,7 +23,7 @@ export default function ActiveUser() {
              <Link to={`/jobadvertisement/add`}>İş İlanı Ekle</Link>
            </Dropdown.Item>
            <Dropdown.Item>
-           <Link to={`/jobadvertisement/add`}>İş İlanı Ekle</Link>
+           <Link to={`/jobadvertisements`}>İş İlanlarını Görüntüle</Link>
          </Dropdown.Item>
           </>
           }

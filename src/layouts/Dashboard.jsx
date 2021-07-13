@@ -2,9 +2,11 @@ import React from "react";
 import CandidateList from "../pages/CandidateList";
 import JobAdvertisementList from "../pages/JobAdvertisementList";
 import JobAdvertisementAdd from "../pages/JobAdvertisementAdd";
+import JobAdvertisementApprove from "../pages/JobAdvertisementApprove";
 import { Grid } from "semantic-ui-react";
 import { Route } from "react-router";
 import { ToastContainer } from "react-toastify";
+import JobAdvertisementDetails from "../pages/JobAdvertisementDetails";
 
 export default function Dashboard() {
   return (
@@ -27,6 +29,8 @@ export default function Dashboard() {
             <Route exact path="/candidates" component={CandidateList} />
             <Route exact path="/jobadvertisement/add" component={JobAdvertisementAdd}/>
             <Route exact path="/jobadvertisements" component={JobAdvertisementList} />
+            <Route exact path="/jobadvertisementtoactive" component={JobAdvertisementApprove} />
+            <Route path="/showjobadvertisement/:id" component={JobAdvertisementDetails} />
           </Grid.Column>
         </Grid.Row>
       </Grid>

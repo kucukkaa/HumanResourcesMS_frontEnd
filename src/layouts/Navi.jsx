@@ -5,6 +5,7 @@ import { useSelector } from 'react-redux';
 import { useDispatch } from "react-redux";
 import { signIn } from "../store/actions/userActions";
 import { toast } from "react-toastify";
+import { Link } from "react-router-dom";
 
 export default function Navi() {
 
@@ -22,7 +23,7 @@ export default function Navi() {
     <div>
       <Menu inverted fixed="top">
         <Container>
-          <Menu.Item name="home" />
+          <Link to={`/`}><Menu.Item name="Ana Sayfa" as="a"></Menu.Item></Link>
           <Menu.Item name="messages" />
 
           <Menu.Menu position="right">

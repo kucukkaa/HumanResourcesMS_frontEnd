@@ -134,7 +134,7 @@ export default function JobAdvertisementAdd() {
 
   return (
     <div>
-      <Formik
+       <Formik
         initialValues={initialValues}
         validationSchema={schema}
         onSubmit={(values) => {
@@ -156,7 +156,7 @@ export default function JobAdvertisementAdd() {
         } 
         }
       >
-        <Form className="ui form">
+        {userType === 2 ? <Form className="ui form">
           <FormField>
             <Position />
           </FormField>
@@ -201,7 +201,7 @@ export default function JobAdvertisementAdd() {
           <Button color="blue" type="submit">
             Kaydet
           </Button>
-        </Form>
+        </Form>:<h2>BU SAYFAYI GÖRÜNTÜLEME YETKİNİZ YOK</h2>}
       </Formik>
     </div>
   );
