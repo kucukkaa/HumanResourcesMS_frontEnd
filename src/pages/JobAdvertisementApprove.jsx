@@ -9,9 +9,9 @@ export default function JobAdvertisementApprove() {
     useEffect(() => {
     let jobAdvertisementService = new JobAdvertisementService();
     jobAdvertisementService
-      .getJobAdvertisementByIsActive(false)
+      .getJobAdvertisementsUnapproved()
       .then((result) => setJobAdvertisement(result.data.data))
-  }, []);
+    },[]);
     
     return (
         
@@ -40,7 +40,7 @@ export default function JobAdvertisementApprove() {
               <Table.Cell>{jobAdvertisement.numberOfOpenPositions}</Table.Cell>
               <Table.Cell>{jobAdvertisement.applicationDeadline}</Table.Cell>
               <Table.Cell>{jobAdvertisement.city.cityName}</Table.Cell>
-              {!jobAdvertisement.active && <Table.Cell><Link  to={`/showjobadvertisement/${jobAdvertisement.id}`}>Onayla!</Link></Table.Cell>}
+              <Table.Cell><Link to={`/showjobadvertisement/${jobAdvertisement.id}`}>Onayla!</Link></Table.Cell>
               
               
               

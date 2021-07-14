@@ -5,49 +5,48 @@ import Card from "react-bootstrap/Card";
 import Button from "react-bootstrap/Button";
 import jobDetailPic from "../images/jobdetail.jpg";
 import ListGroup from "react-bootstrap/ListGroup";
-import Alert from 'react-bootstrap/Alert'
+import Alert from "react-bootstrap/Alert";
+import { useSelector } from "react-redux";
+import { toast } from "react-toastify";
+import { Link } from "react-router-dom";
 
 export default function JobAdvertisementDetails() {
   let { id } = useParams();
 
   const [jobAdvertisement, setJobAdvertisement] = useState({});
 
+  const { userStatus } = useSelector((state) => state.user);
+
+  var userName;
+  var userType;
+  var userId;
+
+  userStatus.map(
+    (user) => (
+      (userName = user.userFirstName),
+      (userType = user.userType),
+      (userId = user.userId)
+    )
+  );
+
+  let jobAdvertisementService = new JobAdvertisementService();
+
   useEffect(() => {
-    let jobAdvertisementService = new JobAdvertisementService();
     jobAdvertisementService
       .getJobAdvertisementById(id)
       .then((result) => setJobAdvertisement(result.data.data));
   }, []);
 
+  function approve() {
+    jobAdvertisementService
+      .jobAdvertisementApprove(userId, jobAdvertisement.id)
+      .then((result) => {
+        toast.success(`${result.data.message}`);
+      });
+  }
+
   return (
     <div>
-      {/* <Card.Group>
-        <Card fluid>
-          <Card.Content>
-            <Image
-              floated="center"
-              size="medium"
-              src="https://st1.myideasoft.com/idea/ct/82/myassets/blogs/yazilimci-gibi-dusunmek.jpg"
-            />
-            <Card.Header>{jobAdvertisement.position?.jobTitle}</Card.Header>
-            <Card.Meta>{jobAdvertisement.jobDescription}</Card.Meta>
-            <Card.Description>
-              Tüm alanların doğru olduğundan emin olduktan sonra <strong>onaylayınız!</strong>
-            </Card.Description>
-          </Card.Content>
-          <Card.Content extra>
-            <div className="ui two buttons">
-              <Button basic color="green">
-                Approve
-              </Button>
-              <Button basic color="red">
-                Decline
-              </Button>
-            </div>
-          </Card.Content>
-        </Card>
-      </Card.Group> */}
-
       <Card style={{ width: "35rem" }}>
         <Card.Img variant="top" src={jobDetailPic} />
         <Card.Body>
@@ -71,12 +70,16 @@ export default function JobAdvertisementDetails() {
               <p class="font-weight-bold">Maksimum Maaş</p>
             </ListGroup.Item>
             <ListGroup.Item>{jobAdvertisement.maxSalary}</ListGroup.Item>
-
-            <Alert variant="danger">
-              Tüm alanları kontrol etmeden onaylama yapmayınız!
-            </Alert>
+            {/* to-do tüm alanlar listelenecek */}
           </ListGroup>
-          <Button variant="primary">Onayla</Button>
+          <Alert variant="danger">
+            Tüm alanları kontrol etmeden onaylama yapmayınız!
+          </Alert>
+          <Link to={`/jobadvertisementapprove`}>
+            <Button variant="primary" onClick={approve}>
+              Onayla
+            </Button>
+          </Link>
         </Card.Body>
       </Card>
     </div>

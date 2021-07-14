@@ -29,7 +29,7 @@ export default function Dashboard() {
             <Route exact path="/candidates" component={CandidateList} />
             <Route exact path="/jobadvertisement/add" component={JobAdvertisementAdd}/>
             <Route exact path="/jobadvertisements" component={JobAdvertisementList} />
-            <Route exact path="/jobadvertisementtoactive" component={JobAdvertisementApprove} />
+            <Route exact path="/jobadvertisementapprove" component={JobAdvertisementApprove} />
             <Route path="/showjobadvertisement/:id" component={JobAdvertisementDetails} />
           </Grid.Column>
         </Grid.Row>

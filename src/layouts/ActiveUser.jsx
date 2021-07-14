@@ -18,14 +18,17 @@ export default function ActiveUser() {
       <Dropdown item text={userName}>
         <Dropdown.Menu>
           <Dropdown.Item>{userName}</Dropdown.Item>
-          {userType === 2 && <>
+          {userType === 2? <>  
+          {/* to-do kullanıcı türüne göre düzenlenecek */}
              <Dropdown.Item>
              <Link to={`/jobadvertisement/add`}>İş İlanı Ekle</Link>
            </Dropdown.Item>
            <Dropdown.Item>
            <Link to={`/jobadvertisements`}>İş İlanlarını Görüntüle</Link>
          </Dropdown.Item>
-          </>
+          </> :<Dropdown.Item>
+             <Link to={`/jobadvertisementapprove`}>İş İlanı onayla</Link>
+           </Dropdown.Item>
           }
         </Dropdown.Menu>
       </Dropdown>

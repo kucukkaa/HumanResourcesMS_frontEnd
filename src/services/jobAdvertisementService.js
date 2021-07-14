@@ -16,4 +16,12 @@ export default class JobAdvertisementService {
     getJobAdvertisementById(id){
         return axios.get("http://localhost:8080/api/JobAdvertisements/getjobadvertisementbyid?Id="+id)
     }
+
+    jobAdvertisementApprove(userId, jobAdvertisementId){
+        return axios.post(`http://localhost:8080/api/JobAdvertisements/jobAdvertisementApprove?jobAdvetisementWillBeUpdatedId=${jobAdvertisementId}&userId=${userId}`)
+    }
+
+    getJobAdvertisementsUnapproved(){
+        return axios.get("http://localhost:8080/api/JobAdvertisements/getAllUnapproved")
+    }
 }
