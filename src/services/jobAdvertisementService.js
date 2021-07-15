@@ -24,4 +24,8 @@ export default class JobAdvertisementService {
     getJobAdvertisementsUnapproved(){
         return axios.get("http://localhost:8080/api/JobAdvertisements/getAllUnapproved")
     }
+
+    getJobAdvertisementsByEmployerId(employerId){
+        return axios.get("http://localhost:8080/api/JobAdvertisements/getjobadvertisementbyemployerid?employerId="+employerId)
+    }
 }

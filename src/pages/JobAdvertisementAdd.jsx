@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Formik, Form, Field, ErrorMessage } from "formik";
 import { useSelector } from "react-redux";
-import { useDispatch } from "react-redux";
 import * as Yup from "yup";
 import { FormField, Button, Label } from "semantic-ui-react";
 import { Select } from "formik-semantic-ui-react";
@@ -16,7 +15,7 @@ export default function JobAdvertisementAdd() {
   let jobAdvertisementService = new JobAdvertisementService();
 
   const { userStatus } = useSelector((state) => state.user);
-  const dispatch = useDispatch();
+  
 
   var userName;
   var userType;

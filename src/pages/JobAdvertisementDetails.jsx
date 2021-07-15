@@ -75,8 +75,8 @@ export default function JobAdvertisementDetails() {
           <Alert variant="danger">
             Tüm alanları kontrol etmeden onaylama yapmayınız!
           </Alert>
-          <Link to={`/jobadvertisementapprove`}>
-            <Button variant="primary" onClick={approve}>
+          <Link onClick={approve} to={`/jobadvertisementapprove`}>
+            <Button variant="primary" >
               Onayla
             </Button>
           </Link>
